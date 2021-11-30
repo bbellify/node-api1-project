@@ -43,7 +43,21 @@ server.get(`/api/users`, (req, res) => {
 
 // get user by id
 server.get('/api/users/:id', (req, res) => {
-
+    Users.findById(req.params.id)
+        .then(user => {
+            if (!user) {
+                res.status(404).json({
+                    message: "The user with the specified ID does not exist"
+                })
+            } else {
+                res.json(user)
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: "The user information could not be retrieved"
+            })
+        })
 })
 
 // delete user by id
